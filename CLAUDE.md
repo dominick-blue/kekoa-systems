@@ -89,8 +89,51 @@ Modern EO satellites generate 30+ TB/day but >80% is waste (clouds, empty ocean)
 ## Documentation Structure
 
 - `docs/technical/` - Horizon phase specifications (horizon_1.md, horizon_2.md, horizon_3.md)
+- `docs/technical/guides/` - Engineering design guides (see below)
 - `docs/strategy/` - PRD, GTM strategy, business model
 - `docs/research/` - Technical deep-dives on orbital mechanics, LatticeOS integration
+
+## Engineering Design Guides
+
+The following guides define KEKOA engineering standards. **Reference these guides when reviewing or writing code.**
+
+| Guide | Path | Use When |
+|-------|------|----------|
+| **Systems Design Guide** | `docs/technical/guides/systems_design_guide.md` | Reviewing architecture, interfaces, formal verification, trade-offs |
+| **AI Systems Design Guide** | `docs/technical/guides/ai_systems_design_guide.md` | Reviewing ML pipelines, federated learning, edge inference, model serving |
+| **ML Systems Design Guide** | `docs/technical/guides/ml_systems_design_guide.md` | Reviewing training systems, evaluation, feature engineering, MLOps |
+
+### Code Review Standards
+
+When reviewing code, validate against these guide principles:
+
+**From Systems Design Guide:**
+- [ ] Physics First: Does the design respect orbital mechanics constraints?
+- [ ] Determinism: Is the code reproducible with seeded randomness?
+- [ ] Graceful Degradation: Does the system handle partial failures?
+- [ ] Formal Verification: Are critical components specified in TLA+ or property-tested?
+
+**From AI Systems Design Guide:**
+- [ ] Edge-First: Does inference happen at the source?
+- [ ] Federated-First: Do gradients move instead of data?
+- [ ] Power-Aware: Does the system respect eclipse/power constraints?
+- [ ] Non-IID Handling: Is data heterogeneity addressed?
+
+**From ML Systems Design Guide:**
+- [ ] Training-Serving Consistency: Are features computed identically?
+- [ ] Model Validation: Is there offline evaluation before deployment?
+- [ ] Drift Detection: Are monitoring and alerts in place?
+- [ ] Fault Tolerance: Are fallback models available?
+
+### Anti-Patterns to Flag
+
+Reference the anti-patterns sections in each guide. Key violations to catch:
+
+- **Probabilistic Availability Assumption**: Using random dropout instead of OAK scheduling
+- **Ground-in-the-Loop Dependency**: Requiring ground contact for normal operation
+- **Non-deterministic Debugging**: Code that can't be reproduced via telemetry
+- **Centralized Training Assumption**: Designing for data centralization
+- **Unbounded Resource Consumption**: Missing memory/power limits
 
 ## Target Markets
 
