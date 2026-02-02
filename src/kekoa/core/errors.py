@@ -43,7 +43,7 @@ F = TypeVar("F", bound=Exception)
 # ============================================================================
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class Ok(Generic[T]):
     """Success variant of Result type.
 
@@ -141,7 +141,7 @@ class Ok(Generic[T]):
         return self
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class Err(Generic[E]):
     """Error variant of Result type.
 

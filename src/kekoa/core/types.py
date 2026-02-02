@@ -53,7 +53,7 @@ Supported coordinate reference frames:
 # ============================================================================
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class Vector3D:
     """Three-dimensional vector with reference frame annotation.
 
@@ -189,7 +189,7 @@ class Vector3D:
 # ============================================================================
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class TLESet:
     """Two-Line Element set for orbital propagation.
 
@@ -222,7 +222,7 @@ class TLESet:
             raise ValueError("TLE line 2 must start with '2 '")
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class StateVector:
     """Satellite state vector (position and velocity at epoch).
 
@@ -302,7 +302,7 @@ class StateVector:
         return timedelta(seconds=t_seconds)
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class OrbitalElements:
     """Classical Keplerian orbital elements.
 
@@ -330,7 +330,7 @@ class OrbitalElements:
 # ============================================================================
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class ContactWindow:
     """Communication window between two satellites.
 
@@ -376,7 +376,7 @@ class ContactWindow:
         return self.aos < other.los and other.aos < self.los
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class TopologyEdge:
     """Edge in the constellation topology graph.
 
@@ -396,7 +396,7 @@ class TopologyEdge:
     weight: float = 1.0
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class TopologyGraph:
     """Snapshot of constellation topology at a point in time.
 
@@ -473,7 +473,7 @@ class PowerState(Enum):
     """Critical power - essential operations only."""
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class PowerBudget:
     """Power budget for satellite operations.
 
@@ -523,7 +523,7 @@ class DegradationLevel(Enum):
     """Offline - no inference available."""
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class SystemHealth:
     """Overall system health status.
 
@@ -553,7 +553,7 @@ class SystemHealth:
 # ============================================================================
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class ModelGradient:
     """Gradient update from local training.
 
@@ -572,7 +572,7 @@ class ModelGradient:
     timestamp: datetime
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class AggregatedModel:
     """Aggregated model weights after federation round.
 
@@ -596,7 +596,7 @@ class AggregatedModel:
 # ============================================================================
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class SensorReading:
     """Generic sensor reading with metadata.
 
@@ -620,7 +620,7 @@ class SensorReading:
             raise ValueError(f"Quality must be 0.0-1.0, got {self.quality}")
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class ImageFrame:
     """Earth observation image frame metadata.
 

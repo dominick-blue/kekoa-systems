@@ -558,7 +558,6 @@ class Timeout:
 # ============================================================================
 
 
-@dataclass
 class DegradationStep(Generic[T]):
     """Single step in a degradation chain.
 
@@ -568,9 +567,15 @@ class DegradationStep(Generic[T]):
         fallback: Next step if this one fails (or None if last)
     """
 
-    name: str
-    func: Callable[[], Result[T, Exception]]
-    fallback: DegradationStep[T] | None = None
+    def __init__(
+        self,
+        name: str,
+        func: Callable[[], Result[T, Exception]],
+        fallback: DegradationStep[T] | None = None,
+    ) -> None:
+        self.name = name
+        self.func = func
+        self.fallback = fallback
 
 
 class DegradationChain(Generic[T]):
@@ -613,11 +618,8 @@ class DegradationChain(Generic[T]):
         step: DegradationStep[T] = DegradationStep(name=name, func=func)
 
         if self._steps:
-            self._steps[-1] = DegradationStep(
-                name=self._steps[-1].name,
-                func=self._steps[-1].func,
-                fallback=step,
-            )
+            # Link previous step to this one
+            self._steps[-1].fallback = step
 
         self._steps.append(step)
         return self
@@ -632,7 +634,7 @@ class DegradationChain(Generic[T]):
         if not self._steps:
             return Err(ValueError("Degradation chain is empty")), 0
 
-        current = self._steps[0]
+        current: DegradationStep[T] | None = self._steps[0]
         level = 0
 
         while current is not None:
